@@ -6,7 +6,7 @@ on:
 
 jobs:
   calculate-and-send:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # 或 ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,4 +37,9 @@ jobs:
           OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
           MODEL_NAME: ${{ secrets.MODEL_NAME }}
         run: |
-          uv run main.py
+          set -e
+          echo "Environment variables loaded:"
+          env
+          echo "Starting main.py script..."
+          uv run main.py || echo "main.py exited with code $?"
+          echo "Script completed successfully."
